@@ -5,6 +5,8 @@ def get_metadata(file_path):
     ds = gdal.Open(file_path)
     metadata = ds.GetMetadata()
     print(metadata)
+    ds = None
+    del ds
 
 
 if __name__ == "__main__":
