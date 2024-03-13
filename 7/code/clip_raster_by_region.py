@@ -1,10 +1,12 @@
 import fiona
 import rasterio
+import rasterio.mask
+
 
 def clip_raster_by_extents(input_raster_file_path, region_file_path, output_file_path):
     with rasterio.open(input_raster_file_path) as ds, fiona.open(region_file_path, "r") as region:
         shape = region[0]["geometry"]
-        out_image, _ = rasterio.mask.mask(ds, shape, crop=True)
+        out_image, _ = rasterio.mask.mask(ds, [shape], crop=True)
         out_meta = ds.meta
 
     out_meta.update({"region": "test roi"})
