@@ -1,10 +1,5 @@
 import fiona
 import rasterio
-import rasterio.mask
-
-with fiona.open("tests/data/box.shp", "r") as shapefile:
-    shapes = [feature["geometry"] for feature in shapefile]
-
 
 def clip_raster_by_extents(input_raster_file_path, region_file_path, output_file_path):
     with rasterio.open(input_raster_file_path) as ds, fiona.open(region_file_path, "r") as region:
