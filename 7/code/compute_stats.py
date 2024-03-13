@@ -1,6 +1,7 @@
 import subprocess
 
 import rasterio
+from osgeo import gdal
 
 
 def compute_ndvi(NIR_path, R_path, output_path):
@@ -13,6 +14,13 @@ def read_image_stats(file_path):
     with rasterio.open(file_path) as ds:
         data = ds.read(1)
         return (data.min(), data.max(), data.mean(), data.median(), data.std())
+
+def add_data_to_new_band(input_file_path, ndvi_path, output_file_path):
+    ds = gdal.Open(input_file_path)
+    driver = gdal.GetDriverByName("GTiff")
+    output_ds = driver.CreateCopy(output_file_path, ds)
+    output_ds.GetRasterBand(2)
+    # TODO:
 
 
 if __name__ == "__main__":
